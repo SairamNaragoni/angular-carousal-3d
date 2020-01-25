@@ -1,0 +1,23 @@
+<div class="custom-carousal-controls">
+    <button (click)=prev()>Prev</button> 
+    <button (click)=next()>Next</button>   
+    <!-- <div [@openClose]="isOpen ? 'open' : 'closed'" class="open-close-container">
+        <p>The box is now {{ isOpen ? 'Open' : 'Closed' }}!</p>
+    </div>
+    <button (click) = toggle()>Click Me</button> -->
+</div>
+<div class="custom-carousal">
+    <div class="custom-carousal-item" id="item-0">
+        <img [@slideRight]="isPrev? 'expandRightEnd' : 'expandRightBegin'"  src="{{Images[index]}}">
+    </div>
+    <div class="custom-carousal-item" id="item-1">
+        <img [@slideLeft]="isNext ? 'shrinkLeftEnd' : 'shrinkLeftBegin'"
+             [@slideRight]="isPrev ? 'shrinkRightEnd' : 'shrinkRightBegin'"
+             (@slideRight.done)="captureRightDoneEvent($event)"
+             (@slideLeft.done)="captureLeftDoneEvent($event)" src="{{Images[(index+1)%max]}}">
+    </div>
+    <div class="custom-carousal-item" id="item-2">
+        <img [@slideLeft]="isNext ? 'expandLeftEnd' : 'expandLeftBegin'" src="{{Images[(index+2)%max]}}">
+    </div>
+</div>
+
