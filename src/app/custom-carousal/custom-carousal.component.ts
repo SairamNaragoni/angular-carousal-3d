@@ -8,6 +8,7 @@ import {
   transition,
 } from '@angular/animations';
 import { CarousalItemComponent } from '../carousal-item/carousal-item.component';
+import { CarousalDirectiveDirective } from '../carousal-directive.directive';
 
 @Component({
   host: {
@@ -97,38 +98,49 @@ export class CustomCarousalComponent implements OnInit {
   max = Images.length;
   currCenter = 0;
   components = [];
-  @ViewChild('customCarousal', { read: ViewContainerRef,static : false }) VCR: ViewContainerRef;
+  @ViewChild(CarousalDirectiveDirective, {static: true}) appCarousalDirective: CarousalDirectiveDirective;
+  @ViewChild('ViewContainerRef', { read: ViewContainerRef,static : true }) VCR: ViewContainerRef;
 
   constructor(private CFR: ComponentFactoryResolver) { }
 
   ngOnInit() {
+    this.createComponent();
   }
   addComponent() {
     const componentFactory = this.CFR.resolveComponentFactory(CarousalItemComponent);
-    const component = this.VCR.createComponent(componentFactory);
+    const viewContainerRef = this.appCarousalDirective.viewContainerRef;
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    const component = (<CarousalItemComponent>componentRef.instance);
+    component.srcPath = Images[0];
+    component.divClassName = "carousal-item center-item";
+    component.id = "image-0";
+    component.imageClassName = "center";
     this.components.push(component);
   }
 
   createComponent() {
 
-    let componentFactory = this.CFR.resolveComponentFactory(CarousalItemComponent);
-    let componentRef: ComponentRef<CarousalItemComponent> = this.VCR.createComponent(componentFactory);
-    let currentComponent = componentRef.instance;
+      let componentFactory = this.CFR.resolveComponentFactory(CarousalItemComponent);
+      let componentRef: ComponentRef<CarousalItemComponent> = this.VCR.createComponent(componentFactory);
+      let component = componentRef.instance;
 
-    currentComponent.id = "image-0";
-    currentComponent.srcPath = Images[0];
+      component.srcPath = Images[0];
+    component.divClassName = "carousal-item center-item";
+    component.id = "image-0";
+    component.imageClassName = "center";
+    component.right=false;
+    this.components.push(component);
 
-    // prividing parent Component reference to get access to parent class methods
-    // currentComponent.compInteraction = this;
 
-    // add reference for newly created component
     // this.componentsReferences.push(componentRef);
   }
 
   next(){
     // var carousal = new CarousalItemComponent("1","","","");
-    this.addComponent();
-    
+    // this.addComponent();
+    // this.createComponent();
+    // this.components[0].srcPath = Images[1];
+    this.components[0].right = true;
   }
 
   prev(){
