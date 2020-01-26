@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ComponentRef, ViewChild, ViewContainerRef, Type } from '@angular/core';
 import {Images} from '../images';
 import {
   trigger,
@@ -7,6 +7,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { CarousalItemComponent } from '../carousal-item/carousal-item.component';
 
 @Component({
   host: {
@@ -38,7 +39,6 @@ import {
       state('expandLeftEnd',style({ 
         transform: 'matrix(1.2, 0, 0, 1.2, -300, 0)',
         opacity: 1.0,
-        
       })),
       transition('shrinkLeftBegin => shrinkLeftEnd', [
         animate('1s')
@@ -95,29 +95,71 @@ export class CustomCarousalComponent implements OnInit {
 
   Images = Images;
   max = Images.length;
-  isNext = false;
-  isPrev = false
-  index = 0;
+  currCenter = 0;
+  components = [];
+  @ViewChild('customCarousal', { read: ViewContainerRef,static : false }) VCR: ViewContainerRef;
 
-  constructor() { }
+  constructor(private CFR: ComponentFactoryResolver) { }
 
   ngOnInit() {
   }
+  addComponent() {
+    const componentFactory = this.CFR.resolveComponentFactory(CarousalItemComponent);
+    const component = this.VCR.createComponent(componentFactory);
+    this.components.push(component);
+  }
+
+  createComponent() {
+
+    let componentFactory = this.CFR.resolveComponentFactory(CarousalItemComponent);
+    let componentRef: ComponentRef<CarousalItemComponent> = this.VCR.createComponent(componentFactory);
+    let currentComponent = componentRef.instance;
+
+    currentComponent.id = "image-0";
+    currentComponent.srcPath = Images[0];
+
+    // prividing parent Component reference to get access to parent class methods
+    // currentComponent.compInteraction = this;
+
+    // add reference for newly created component
+    // this.componentsReferences.push(componentRef);
+  }
+
   next(){
-    this.isNext = true;
-    this.isPrev = false;
+    // var carousal = new CarousalItemComponent("1","","","");
+    this.addComponent();
+    
   }
+
   prev(){
-    this.isNext = false;
-    this.isPrev = true;
+    this.currCenter = (this.currCenter-1+this.max)%this.max;
   }
+
+  getRight(){
+    return (this.currCenter+1)%this.max;
+  }
+
+  getLeft(){
+    return (this.currCenter-1+this.max)%this.max;
+  }
+
+  addNewImage(){
+    var division: HTMLElement =  document.getElementById('custom-carousal');
+    var newImageElement = document.createElement('img') as HTMLPictureElement;
+    newImageElement.setAttribute('src',Images[this.getRight()]);
+    newImageElement.setAttribute('class','right');
+    newImageElement.setAttribute('id','image-'+this.getRight());
+    var newDivElement = document.createElement('div') as HTMLDivElement;
+    newDivElement.setAttribute('class','carousal-item side-item');
+    newDivElement.appendChild(newImageElement);
+    division.appendChild(newDivElement);
+  }
+  
   captureLeftDoneEvent(event:AnimationEvent){
-    console.log("animation ended");
-    this.index = (this.index+1)%this.max;
+    
   }
   captureRightDoneEvent(event:AnimationEvent){
-    console.log("animation ended");
-    this.index = (this.index-1+this.max)%this.max;
+    
   }
 
 }

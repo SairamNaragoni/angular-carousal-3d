@@ -1,12 +1,24 @@
+<!-- <div [@openClose]="isOpen ? 'open' : 'closed'" class="open-close-container">
+    <p>The box is now {{ isOpen ? 'Open' : 'Closed' }}!</p>
+</div>
+<button (click) = toggle()>Click Me</button> -->
 <div class="custom-carousal-controls">
     <button (click)=prev()>Prev</button> 
-    <button (click)=next()>Next</button>   
-    <!-- <div [@openClose]="isOpen ? 'open' : 'closed'" class="open-close-container">
-        <p>The box is now {{ isOpen ? 'Open' : 'Closed' }}!</p>
-    </div>
-    <button (click) = toggle()>Click Me</button> -->
+    <button (click)=next()>Next</button>
 </div>
-<div class="custom-carousal">
+<div class="custom-carousal" id="custom-carousal" >
+    <!-- <div class="carousal-item center-item">
+        <img src="{{Images[0]}}" class="center" id="image-0">
+    </div>
+    <div class="carousal-item side-item">
+        <img src="{{Images[1]}}"  class="right" id="image-1" >
+    </div> -->
+    <ng-template #customCarousal>
+    </ng-template>
+    
+</div>
+
+<!-- <div class="custom-carousal">
     <div class="custom-carousal-item" id="item-0">
         <img [@slideRight]="isPrev? 'expandRightEnd' : 'expandRightBegin'"  src="{{Images[index]}}">
     </div>
@@ -19,5 +31,5 @@
     <div class="custom-carousal-item" id="item-2">
         <img [@slideLeft]="isNext ? 'expandLeftEnd' : 'expandLeftBegin'" src="{{Images[(index+2)%max]}}">
     </div>
-</div>
+</div> -->
 

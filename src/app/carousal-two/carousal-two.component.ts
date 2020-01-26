@@ -53,6 +53,7 @@ export class CarousalTwoComponent implements AfterViewInit {
   }
 
   shrinkLeft(){
+    
     let animationFactory = this.animationBuilder.build([
       style({
         transformOrigin: 'center',
