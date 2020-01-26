@@ -5,16 +5,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CustomCarousalComponent } from './custom-carousal/custom-carousal.component';
+import { CarousalTwoComponent } from './carousal-two/carousal-two.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomCarousalComponent
+    CustomCarousalComponent,
+    CarousalTwoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
