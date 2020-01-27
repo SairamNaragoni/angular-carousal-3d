@@ -1,3 +1,8 @@
-<div class="{{divClassName}}">
-    <img [@slideRight]=" right? 'expandRightEnd' : 'expandRightBegin'" src="{{srcPath}}" class="{{imageClassName}}" id="{{id}}">
+<div class={{getDivClassName()}}>
+    <img src="{{srcPath}}" class="{{imageClassName}}" id="{{id}}"
+    [@slideRightExpand]=" expandRight ? 'expandRightEnd' : 'expandRightBegin'"
+    [@slideRightShrink]=" shrinkRight ? 'shrinkRightEnd' : 'shrinkRightBegin'"
+    [@slideLeftExpand]=" expandLeft ? 'expandLeftEnd' : 'expandLeftBegin'"
+    [@slideLeftShrink]=" shrinkLeft ? 'shrinkLeftEnd' : 'shrinkLeftBegin'"
+    >
 </div>

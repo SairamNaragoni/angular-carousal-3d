@@ -24,7 +24,6 @@ import { CarousalDirectiveDirective } from './carousal-directive.directive';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    
   ],
   providers: [],
   bootstrap: [AppComponent]
