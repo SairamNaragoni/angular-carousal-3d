@@ -30,8 +30,9 @@ export class CustomCarousalComponent implements OnInit {
   constructor(private CFR: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    this.addComponent(0,ItemPosition.center);
+    this.addComponent(0,ItemPosition.left);
     this.addComponent(1,ItemPosition.left);
+    this.components[0].instance.expandRight=true;
   }
 
   addComponent(index:number,pos:ItemPosition) {
@@ -75,8 +76,8 @@ export class CustomCarousalComponent implements OnInit {
     this.components[this.getNext()].instance.expandRight = true;
     this.currCenter = (this.currCenter+1)%this.max;
     this.addComponent(this.getNext(),ItemPosition.left);
-    if(this.currSize>3)
-      this.removeComponent(0);
+    // if(this.currSize>3)
+    //   this.removeComponent(0);
   }
 
   prev(){

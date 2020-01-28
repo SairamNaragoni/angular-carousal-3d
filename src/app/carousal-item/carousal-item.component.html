@@ -4,5 +4,9 @@
     [@slideRightShrink]=" shrinkRight ? 'shrinkRightEnd' : 'shrinkRightBegin'"
     [@slideLeftExpand]=" expandLeft ? 'expandLeftEnd' : 'expandLeftBegin'"
     [@slideLeftShrink]=" shrinkLeft ? 'shrinkLeftEnd' : 'shrinkLeftBegin'"
+    (@slideRightExpand.done)="animationDone($event)"
+    (@slideRightShrink.done)="animationRightShrinkDone($event)"
+    (@slideLeftExpand.done)="animationDone($event)"
+    (@slideLeftShrink.done)="animationDone($event)"
     >
 </div>

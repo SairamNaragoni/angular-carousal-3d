@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 // export interface myinterface {
@@ -9,6 +9,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   selector: 'app-carousal-item',
   templateUrl: './carousal-item.component.html',
   styleUrls: ['./carousal-item.component.css'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('slideLeftShrink',[
       state('shrinkLeftBegin',style({
@@ -49,23 +50,19 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ]),
     trigger('slideRightShrink',[
       state('shrinkRightBegin',style({
-        margin: 'auto',
-        display: 'block',
         // transform:'matrix(1.2, 0, 0, 1.2, 0, 0)',
         transformOrigin: 'center',
       })),
       state('shrinkRightEnd',style({ 
-        margin: 'auto',
-        display: 'block',
-        transform: 'matrix(0.8, 0, 0, 0.8, +300, 0)',
+        transform: 'matrix(0.8, 0, 0, 0.8, +600, 0)',
         opacity: 0.5,
         
       })),
       transition('shrinkRightBegin => shrinkRightEnd', [
-        animate('1s')
+        animate('1s ease-out'),
       ]),
       transition('shrinkRightEnd => shrinkRightBegin', [
-        animate('1s')
+        animate('1s ease-in')
       ]),
     ]),
 
@@ -111,10 +108,18 @@ export class CarousalItemComponent implements OnInit {
   }
 
   animationDone(event:AnimationEvent){
-    this.expandLeft = false;
-    this.expandRight = false;
-    this.shrinkLeft = false;
-    this.shrinkRight = false;
+    
+    // this.expandLeft = false;
+    // this.expandRight = false;
+    // this.shrinkLeft = false;
+    // this.shrinkRight = false;
+  }
+
+  animationRightShrinkDone(event:AnimationEvent){
+    // console.log("shrinkright done");
+    // this.shrinkRight=false;
+    // this.divClassName="side-item";
+    // this.imageClassName="right";
   }
 
   // removeComponent(index) {

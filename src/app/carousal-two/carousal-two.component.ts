@@ -2,11 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, Directive, AfterViewInit, Vie
 import { Images } from '../images';
 import { trigger, state, style, transition, animate, AnimationBuilder, AnimationPlayer } from '@angular/animations';
 
-@Component({})
-class MyDialog {
-
-}
-
 @Component({
   selector: 'app-carousal-two',
   templateUrl: './carousal-two.component.html',
@@ -30,6 +25,8 @@ export class CarousalTwoComponent implements AfterViewInit {
   }
 
   prev(){
+    this.shrinkRight();
+    this.expandRight();
     this.currCenter = (this.currCenter-1+this.max)%this.max;
   }
 
@@ -97,22 +94,51 @@ export class CarousalTwoComponent implements AfterViewInit {
     return leftExpandPlayer;
   }
 
-  // shrinkRight(){
-  //   let animationFactory = this.animationBuilder.build([
-  //     style({
-  //       // transform:'matrix(1.2, 0, 0, 1.2, 0, 0)',
-  //       transformOrigin: 'center',
-  //     }),
-  //     animate(600,style({ 
-  //       transform: 'matrix(0.8, 0, 0, 0.8, +300, 0)',
-  //       opacity: 0.5,
+  shrinkRight(){
+    let animationFactory = this.animationBuilder.build([
+      style({
+        // transform:'matrix(1.2, 0, 0, 1.2, 0, 0)',
+        transformOrigin: 'center',
+      }),
+      animate(600,style({ 
+        transform: 'matrix(0.8, 0, 0, 0.8, 0, 0)',
+        opacity: 0.5,
         
-  //     }),),
-  //   ]);
-  //   var el: HTMLPictureElement = document.getElementById('right');
-  //   let leftExpandPlayer = animationFactory.create(el);
-  //   return leftExpandPlayer;
-  // }
+      }),),
+    ]);
+    var centerId = 'image-'+this.currCenter;
+    var el: HTMLPictureElement = document.getElementById(centerId);
+    let rightShrinkPlayer = animationFactory.create(el);
+    rightShrinkPlayer.play();
+    rightShrinkPlayer.onDone(()=>{
+      el.parentElement.removeAttribute('class');
+      el.parentElement.setAttribute('class','carousal-item side-item');
+    });
+    return rightShrinkPlayer;
+  }
+
+  expandRight(){
+    let animationFactory = this.animationBuilder.build([
+      style({
+        // transform:'matrix(0.8, 0, 0, 0.8, 0, 0)',
+        transformOrigin: 'center',
+      }),
+      animate(600,style({ 
+        transform: 'matrix(1.2, 0, 0, 1.2, -300, 0)',
+        opacity: 1.0,
+        
+      }),),
+    ]);
+    var leftId = 'image-'+this.getLeft();
+    var el: HTMLPictureElement = document.getElementById(leftId);
+    let rightExpandPlayer = animationFactory.create(el);
+    rightExpandPlayer.play();
+    rightExpandPlayer.onDone(()=>{
+      el.parentElement.removeAttribute('class');
+      el.parentElement.setAttribute('class','carousal-item center-item');
+    });
+    return rightExpandPlayer;
+  }
   
 
 }
